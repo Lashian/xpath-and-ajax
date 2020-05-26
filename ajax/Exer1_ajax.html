@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<style>
+table,th,td {
+  border : 1px solid black;
+   border-collapse: collapse;
+}
+</style>
+<body>
+
+<h2>The XMLHttpRequest Object</h2>
+
+<button type="button" onclick="loadDoc()">Get my CD collection</button>
+<br><br>
+<div id="demo"></div>
+
+<script>
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      consulta(this);
+    }
+  };
+  xhttp.open("GET", "cd_catalog.xml", true);
+  xhttp.send();
+}
+function consulta(xml) {
+  var i;
+  var xmlDoc = xml.responseXML;
+  var table="";
+  var x = xmlDoc.getElementsByTagName("CD");
+  for (i = 0; i <x.length; i++) { 
+    table += "<div>" +
+    x[i].getElementsByTagName("COUNTRY")[0].childNodes[0].nodeValue +
+    x[i].getElementsByTagName("COMPANY")[0].childNodes[0].nodeValue +
+	x[i].getElementsByTagName("PRICE")[0].childNodes[0].nodeValue +
+	x[i].getElementsByTagName("YEAR")[0].childNodes[0].nodeValue 
+   "</div>";
+  }
+  document.getElementById("demo").innerHTML = table;
+}
+</script>
+
+</body>
+</html>
